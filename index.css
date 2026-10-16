@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+:root {
+  --ink: #141414;
+  --ink-soft: #55554f;
+  --ink-faint: #8a8a82;
+  --paper: #fafaf7;
+  --paper-raise: #ffffff;
+  --line: #e2e2da;
+  --accent: #0046ff; /* 强调色 —— 全站仅使用一次 */
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter Tight", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  font-feature-settings: "tnum";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.katex {
+  font-size: 1.06em;
+}
+
+.katex-display {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* 阅读服务型动效：进入视口时轻微上移淡入 */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 触屏按压反馈 */
+.tappable {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.18s ease, border-color 0.18s ease,
+    transform 0.12s ease, color 0.18s ease;
+}
+.tappable:active {
+  transform: scale(0.985);
+}
+
+/* 手风琴展开 */
+.collapse-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.collapse-grid.open {
+  grid-template-rows: 1fr;
+}
+.collapse-grid > div {
+  overflow: hidden;
+}
+
+/* 多米诺 */
+.domino {
+  transform-origin: bottom right;
+  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.domino.fallen {
+  transform: rotate(72deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .domino,
+  .collapse-grid {
+    transition: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
